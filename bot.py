@@ -11,20 +11,59 @@ class Bot:
         """
         if tick.currentLocation is None:
             # If the current location is null, that means that we have to spawn.
+            print(f"Spawn at {tick.map.ports[0]}")
             return Spawn(tick.map.ports[0])
 
         # Si on est a un port et que nous sommes pas au
-        if (tick.currentLocation in tick.map.ports) and (tick.currentTick != tick.totalTicks):
-            return Anchor()
+        if (tick.currentLocation in tick.map.ports) and (map.ports.index(tick.currentLocation) not in tick.visitedPortIndices):
+            print(f"Dock at {tick.currentLocation}")
+            return Dock()
 
         closestPort = tick.map.ports[1]
         # Calculates the closest port without any regards to topology or water level
         for port in tick.map.ports[2:]:
             if (map.ports.index(port) not in tick.visitedPortIndices) and (abs(tick.currentLocation['row'] - port['row']) + abs(tick.currentLocation['column'] - port['column']) < abs(tick.currentLocation['row'] - closestPort['row']) + abs(tick.currentLocation['column'] - closestPort['column'])):
                 closestPort = port
+                print(f"Closest port at {closestPort}")
 
-        nextTicks = []
-        for i in directions:  # Calculer le parcours le plus rapide vers le port en fonction de la topologie et des marees, mettre ce parcours dans une liste qui sera accessible aux coups suivants
-            x = 1
+# Sail direction
 
-        # return Sail()
+        if (tick.currentLocation['row'] < closestPort['row']) and (tick.currentLocation['column'] < closestPort['column']):
+            # (+1, +1)
+            print("Sail SE")
+            return Sail('SE')
+
+        if (tick.currentLocation['row'] < closestPort['row']) and (tick.currentLocation['column'] > closestPort['column']):
+            # (+1, -1)
+            print("Sail SW")
+            return Sail('SW')
+
+        if (tick.currentLocation['row'] > closestPort['row']) and (tick.currentLocation['column'] < closestPort['column']):
+            # (-1, +1)
+            print("Sail NE")
+            return Sail('NE')
+
+        if (tick.currentLocation['row'] > closestPort['row']) and (tick.currentLocation['column'] > closestPort['column']):
+            # (-1, -1)
+            print("Sail NW")
+            return Sail('NW')
+
+        if (tick.currentLocation['row'] < closestPort['row']) and (tick.currentLocation['column'] == closestPort['column']):
+            # (+1, 0)
+            print("Sail S")
+            return Sail('S')
+
+        if (tick.currentLocation['row'] > closestPort['row']) and (tick.currentLocation['column'] == closestPort['column']):
+            # (-1, 0)
+            print("Sail N")
+            return Sail('N')
+
+        if (tick.currentLocation['row'] == closestPort['row']) and (tick.currentLocation['column'] < closestPort['column']):
+            # (0, +1)
+            print("Sail E")
+            return Sail('E')
+
+        if (tick.currentLocation['row'] == closestPort['row']) and (tick.currentLocation['column'] > closestPort['column']):
+            # (0, -1)
+            print("Sail W")
+            return Sail('W')
