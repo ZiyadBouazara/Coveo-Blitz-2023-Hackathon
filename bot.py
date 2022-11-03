@@ -16,14 +16,14 @@ class Bot:
 
         # Si on est a un port et que nous sommes pas au
         if (tick.currentLocation in tick.map.ports):
-            if (map.ports.index(tick.currentLocation) not in tick.visitedPortIndices):
+            if (tick.map.ports.index(tick.currentLocation) not in tick.visitedPortIndices):
                 print(f"Dock at {tick.currentLocation}")
                 return Dock()
 
         closestPort = tick.map.ports[1]
         # Calculates the closest port without any regards to topology or water level
         for port in tick.map.ports[2:]:
-            if (map.ports.index(port) not in tick.visitedPortIndices) and (abs(tick.currentLocation.row - port.row) + abs(tick.currentLocation.column - port.column) < abs(tick.currentLocation.row - closestPort.row) + abs(tick.currentLocation.column - closestPort.column)):
+            if (tick.map.ports.index(port) not in tick.visitedPortIndices) and (abs(tick.currentLocation.row - port.row) + abs(tick.currentLocation.column - port.column) < abs(tick.currentLocation.row - closestPort.row) + abs(tick.currentLocation.column - closestPort.column)):
                 closestPort = port
                 print(
                     f"Closest port at {closestPort.row}: {closestPort.column}")
