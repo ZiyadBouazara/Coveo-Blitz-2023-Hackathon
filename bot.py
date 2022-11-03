@@ -20,13 +20,18 @@ class Bot:
                 print(f"Dock at {tick.currentLocation}")
                 return Dock()
 
-        closestPort = tick.map.ports[1]
-        # Calculates the closest port without any regards to topology or water level
-        for port in tick.map.ports[2:]:
-            if (tick.map.ports.index(port) not in tick.visitedPortIndices) and (abs(tick.currentLocation.row - port.row) + abs(tick.currentLocation.column - port.column) < abs(tick.currentLocation.row - closestPort.row) + abs(tick.currentLocation.column - closestPort.column)):
+        for port in tick.map.ports:
+            if (tick.map.ports.index(port) not in tick.visitedPortIndices):
                 closestPort = port
-                print(
-                    f"Closest port at {closestPort.row}: {closestPort.column}")
+                break
+
+        # closestPort = tick.map.ports[1]
+        # Calculates the closest port without any regards to topology or water level
+        # for port in tick.map.ports[2:]:
+        #     if (tick.map.ports.index(port) not in tick.visitedPortIndices) and (abs(tick.currentLocation.row - port.row) + abs(tick.currentLocation.column - port.column) < abs(tick.currentLocation.row - closestPort.row) + abs(tick.currentLocation.column - closestPort.column)):
+        #         closestPort = port
+        #         print(
+        #             f"Closest port at {closestPort.row}: {closestPort.column}")
 
 # Sail direction
 
