@@ -15,9 +15,10 @@ class Bot:
             return Spawn(tick.map.ports[0])
 
         # Si on est a un port et que nous sommes pas au
-        if (tick.currentLocation in tick.map.ports) and (map.ports.index(tick.currentLocation) not in tick.visitedPortIndices):
-            print(f"Dock at {tick.currentLocation}")
-            return Dock()
+        if (tick.currentLocation in tick.map.ports):
+            if (map.ports.index(tick.currentLocation) not in tick.visitedPortIndices):
+                print(f"Dock at {tick.currentLocation}")
+                return Dock()
 
         closestPort = tick.map.ports[1]
         # Calculates the closest port without any regards to topology or water level
@@ -30,6 +31,7 @@ class Bot:
 
         if (tick.currentLocation['row'] < closestPort['row']) and (tick.currentLocation['column'] < closestPort['column']):
             # (+1, +1)
+            # if hauteurterrain < eau (A METTRE POUR CHACUN)
             print("Sail SE")
             return Sail('SE')
 
