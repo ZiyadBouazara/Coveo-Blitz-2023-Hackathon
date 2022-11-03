@@ -23,49 +23,81 @@ class Bot:
         closestPort = tick.map.ports[1]
         # Calculates the closest port without any regards to topology or water level
         for port in tick.map.ports[2:]:
-            if (map.ports.index(port) not in tick.visitedPortIndices) and (abs(tick.currentLocation['row'] - port['row']) + abs(tick.currentLocation['column'] - port['column']) < abs(tick.currentLocation['row'] - closestPort['row']) + abs(tick.currentLocation['column'] - closestPort['column'])):
+            if (map.ports.index(port) not in tick.visitedPortIndices) and (abs(tick.currentLocation.row - port.row) + abs(tick.currentLocation.column - port.column) < abs(tick.currentLocation.row - closestPort.row) + abs(tick.currentLocation.column - closestPort.column)):
                 closestPort = port
-                print(f"Closest port at {closestPort}")
+                print(
+                    f"Closest port at {closestPort.row}: {closestPort.column}")
 
 # Sail direction
 
-        if (tick.currentLocation['row'] < closestPort['row']) and (tick.currentLocation['column'] < closestPort['column']):
+        if (tick.currentLocation.row < closestPort.row) and (tick.currentLocation.column < closestPort.column):
             # (+1, +1)
-            # if hauteurterrain < eau (A METTRE POUR CHACUN)
-            print("Sail SE")
-            return Sail('SE')
+            # Si hauteur_terrain >= eau en SE de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row + 1][tick.currentLocation.column + 1]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail SE")
+                return Sail('SE')
 
-        if (tick.currentLocation['row'] < closestPort['row']) and (tick.currentLocation['column'] > closestPort['column']):
+        if (tick.currentLocation.row < closestPort.row) and (tick.currentLocation.column > closestPort.column):
             # (+1, -1)
-            print("Sail SW")
-            return Sail('SW')
+            # Si hauteur_terrain >= eau en SW de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row + 1][tick.currentLocation.column - 1]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail SW")
+                return Sail('SW')
 
-        if (tick.currentLocation['row'] > closestPort['row']) and (tick.currentLocation['column'] < closestPort['column']):
+        if (tick.currentLocation.row > closestPort.row) and (tick.currentLocation.column < closestPort.column):
             # (-1, +1)
-            print("Sail NE")
-            return Sail('NE')
+            # Si hauteur_terrain >= eau en NE de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row - 1][tick.currentLocation.column + 1]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail NE")
+                return Sail('NE')
 
-        if (tick.currentLocation['row'] > closestPort['row']) and (tick.currentLocation['column'] > closestPort['column']):
+        if (tick.currentLocation.row > closestPort.row) and (tick.currentLocation.column > closestPort.column):
             # (-1, -1)
-            print("Sail NW")
-            return Sail('NW')
+            # Si hauteur_terrain >= eau en NW de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row - 1][tick.currentLocation.column - 1]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail NW")
+                return Sail('NW')
 
-        if (tick.currentLocation['row'] < closestPort['row']) and (tick.currentLocation['column'] == closestPort['column']):
+        if (tick.currentLocation.row < closestPort.row) and (tick.currentLocation.column == closestPort.column):
             # (+1, 0)
-            print("Sail S")
-            return Sail('S')
+            # Si hauteur_terrain >= eau en S de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row + 1][tick.currentLocation.column]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail S")
+                return Sail('S')
 
-        if (tick.currentLocation['row'] > closestPort['row']) and (tick.currentLocation['column'] == closestPort['column']):
+        if (tick.currentLocation.row > closestPort.row) and (tick.currentLocation.column == closestPort.column):
             # (-1, 0)
-            print("Sail N")
-            return Sail('N')
+            # Si hauteur_terrain >= eau en N de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row - 1][tick.currentLocation.column]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail N")
+                return Sail('N')
 
-        if (tick.currentLocation['row'] == closestPort['row']) and (tick.currentLocation['column'] < closestPort['column']):
+        if (tick.currentLocation.row == closestPort.row) and (tick.currentLocation.column < closestPort.column):
             # (0, +1)
-            print("Sail E")
-            return Sail('E')
+            # Si hauteur_terrain >= eau en E de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row][tick.currentLocation.column + 1]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail E")
+                return Sail('E')
 
-        if (tick.currentLocation['row'] == closestPort['row']) and (tick.currentLocation['column'] > closestPort['column']):
+        if (tick.currentLocation.row == closestPort.row) and (tick.currentLocation.column > closestPort.column):
             # (0, -1)
-            print("Sail W")
-            return Sail('W')
+            # Si hauteur_terrain >= eau en W de currentLoc -> ANCHOR
+            if (tick.map.topology[tick.currentLocation.row][tick.currentLocation.column - 1]) >= tick.tideSchedule[0]:
+                return Anchor()
+            else:
+                print("Sail W")
+                return Sail('W')
