@@ -14,9 +14,18 @@ class Bot:
             print(f"Spawn at {tick.map.ports[0]}")
             return Spawn(tick.map.ports[0])
 
-        # Si on est a un port et que nous sommes pas au
+        # Si le premier port et dernier port sont les memes, la partie est fini
+        # if (tick.visitedPortIndices[0] == tick.visitedPortIndices.pop()) and (tick.visitedPortIndices.length() > 1):
+        #     tick.isOver = True
+        #     return tick.isOver
+
+        # Si tout les ports ont ete visite, on retourn au spawn port
+        if (tick.visitedPortIndices.length() == tick.map.ports.length()):
+            closestPort == tick.spawnLocation
+
+        # Si on est a un port et qu'il n'a pas encore ete visite OU que on est au port du spawn et que le nombre de ports visite n'est pas nul (i.e. pas au debut de la partie)
         if (tick.currentLocation in tick.map.ports):
-            if (tick.map.ports.index(tick.currentLocation) not in tick.visitedPortIndices):
+            if (tick.map.ports.index(tick.currentLocation) not in tick.visitedPortIndices) or ((tick.currentLocation == tick.spawnLocation) and (tick.visitedPortIndices is not None)):
                 print(f"Dock at {tick.currentLocation}")
                 return Dock()
 
