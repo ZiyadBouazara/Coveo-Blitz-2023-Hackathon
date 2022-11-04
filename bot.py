@@ -14,11 +14,6 @@ class Bot:
             print(f"Spawn at {tick.map.ports[0]}")
             return Spawn(tick.map.ports[0])
 
-        # Si le premier port et dernier port sont les memes, la partie est fini
-        # if (tick.visitedPortIndices[0] == tick.visitedPortIndices.pop()) and (len(tick.visitedPortIndices) > 1):
-        #     tick.isOver = True
-        #     return tick.isOver
-
         # Si on est a un port et qu'il n'a pas encore ete visite OU que on est au port du spawn et que le nombre de ports visite n'est pas nul (i.e. pas au debut de la partie)
         if (tick.currentLocation in tick.map.ports):
             if (tick.map.ports.index(tick.currentLocation) not in tick.visitedPortIndices) or ((tick.currentLocation == tick.spawnLocation) and (len(tick.visitedPortIndices) > 1)):
@@ -32,8 +27,9 @@ class Bot:
 
         # Si tout les ports ont ete visite, on retourn au spawn port
         if (len(tick.visitedPortIndices) == len(tick.map.ports)):
+            print("ERREUR POTENTIEL 1")
             closestPort == tick.spawnLocation
-        else:
+        if (len(tick.visitedPortIndices) != len(tick.map.ports)):
             closestPort = tick.map.ports[1]
             # Calculates the closest port without any regards to topology or water level
             for port in tick.map.ports[2:]:
@@ -104,6 +100,7 @@ class Bot:
                 if (tick.map.topology[tick.currentLocation.row - 1][tick.currentLocation.column + 1]) < tick.tideSchedule[0]:
                     return Sail('NE')
                 else:
+                    print("Anchor")
                     return Anchor()
 
             else:
@@ -137,6 +134,7 @@ class Bot:
                 if (tick.map.topology[tick.currentLocation.row + 1][tick.currentLocation.column - 1]) < tick.tideSchedule[0]:
                     return Sail('SW')
                 else:
+                    print("Anchor")
                     return Anchor()
 
             else:
@@ -170,6 +168,7 @@ class Bot:
                 if (tick.map.topology[tick.currentLocation.row + 1][tick.currentLocation.column + 1]) < tick.tideSchedule[0]:
                     return Sail('SE')
                 else:
+                    print("Anchor")
                     return Anchor()
 
             else:
@@ -203,6 +202,7 @@ class Bot:
                 if (tick.map.topology[tick.currentLocation.row - 1][tick.currentLocation.column]) < tick.tideSchedule[0]:
                     return Sail('N')
                 else:
+                    print("Anchor")
                     return Anchor()
 
             else:
@@ -236,6 +236,7 @@ class Bot:
                 if (tick.map.topology[tick.currentLocation.row + 1][tick.currentLocation.column]) < tick.tideSchedule[0]:
                     return Sail('S')
                 else:
+                    print("Anchor")
                     return Anchor()
 
             else:
@@ -269,6 +270,7 @@ class Bot:
                 if (tick.map.topology[tick.currentLocation.row][tick.currentLocation.column - 1]) < tick.tideSchedule[0]:
                     return Sail('W')
                 else:
+                    print("Anchor")
                     return Anchor()
 
             else:
@@ -302,6 +304,7 @@ class Bot:
                 if (tick.map.topology[tick.currentLocation.row][tick.currentLocation.column + 1]) < tick.tideSchedule[0]:
                     return Sail('E')
                 else:
+                    print("Anchor")
                     return Anchor()
 
             else:
