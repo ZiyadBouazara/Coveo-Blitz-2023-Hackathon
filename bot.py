@@ -28,15 +28,28 @@ class Bot:
         # Si tout les ports ont ete visite, on retourn au spawn port
         if (len(tick.visitedPortIndices) == len(tick.map.ports)):
             print("En route vers le spawn")
-            closestPort = tick.spawnLocation
+            closestPort = tick.map.ports[0]
+            print(
+                f"Closest port at {closestPort.row}: {closestPort.column}")
+
         if (len(tick.visitedPortIndices) != len(tick.map.ports)):
-            closestPort = tick.map.ports[1]
-            # Calculates the closest port without any regards to topology or water level
-            for port in tick.map.ports[2:]:
-                if (tick.map.ports.index(port) not in tick.visitedPortIndices) and ((abs(tick.currentLocation.row - port.row) + abs(tick.currentLocation.column - port.column)) < (abs(tick.currentLocation.row - closestPort.row) + abs(tick.currentLocation.column - closestPort.column))):
-                    closestPort = port
-                    print(
-                        f"Closest port at {closestPort.row}: {closestPort.column}")
+            distances = []
+            port_equivalent = []
+            for port in tick.map.ports[1:]:
+                if ((tick.map.ports.index(port)) not in tick.visitedPortIndices):
+                    distances.append((abs(tick.currentLocation.row - port.row) +
+                                      abs(tick.currentLocation.column - port.column)))
+                    port_equivalent.append(port)
+            dist_min = min(distances)
+            closestPort = port_equivalent[distances.index(dist_min)]
+
+            # closestPort = tick.map.ports[1]
+            # # Calculates the closest port without any regards to topology or water level
+            # for port in tick.map.ports[2:]:
+            #     if (tick.map.ports.index(port) not in tick.visitedPortIndices) and ((abs(tick.currentLocation.row - port.row) + abs(tick.currentLocation.column - port.column)) < (abs(tick.currentLocation.row - closestPort.row) + abs(tick.currentLocation.column - closestPort.column))):
+            #         closestPort = port
+            #         print(
+            #             f"Closest port at {closestPort.row}: {closestPort.column}")
 
 # Sail direction
 
