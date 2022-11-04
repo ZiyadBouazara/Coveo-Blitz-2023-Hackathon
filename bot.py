@@ -27,8 +27,8 @@ class Bot:
 
         # Si tout les ports ont ete visite, on retourn au spawn port
         if (len(tick.visitedPortIndices) == len(tick.map.ports)):
-            print("ERREUR POTENTIEL 1")
-            closestPort == tick.spawnLocation
+            print("En route vers le spawn")
+            closestPort = tick.spawnLocation
         if (len(tick.visitedPortIndices) != len(tick.map.ports)):
             closestPort = tick.map.ports[1]
             # Calculates the closest port without any regards to topology or water level
